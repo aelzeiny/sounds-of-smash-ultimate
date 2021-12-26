@@ -1,0 +1,27 @@
+{
+  "name": "sounds-of-smash-ultimate",
+  "version": "1.0.0",
+  "description": "Sounds of Smash Ultimate",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aelzeiny/sounds-of-smash-utlimate.git"
+  },
+  "keywords": [
+    "smash",
+    "ultimate",
+    "sounds",
+    "audio",
+    "t-sne",
+    "visualization"
+  ],
+  "author": "Ahmed Elzeiny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aelzeiny/sounds-of-smash-utlimate/issues"
+  },
+  "homepage": "https://github.com/aelzeiny/sounds-of-smash-utlimate#readme"
+}
