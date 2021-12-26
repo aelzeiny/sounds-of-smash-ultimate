@@ -85,11 +85,6 @@ class Matrix4D {
 
 class CanvasCamera {
     constructor(canvas) {
-        this._canvas = canvas;
-        this._context = canvas.getContext('2d');
-        this._context.save();
-        this._viewportWidth = canvas.width;
-        this._viewportHeight = canvas.height;
         this._position = {x: 0, y: 0};
         this._zoom = 1;
         this._rotation = 0;
@@ -97,14 +92,14 @@ class CanvasCamera {
         this.updateTranslationMatrix();
     }
 
-    clear(color) {
+    clear(context, color, viewportWidth, viewportHeight) {
         const ul = this.worldToScreen(0, 0);
-        const lr = this.worldToScreen(this._viewportWidth, this._viewportHeight);
+        const lr = this.worldToScreen(viewportWidth, viewportHeight);
         if (!color) {
-            this._context.clearRect(ul.x, ul.y, (lr.x - ul.x), (lr.y - ul.y));
+            context.clearRect(ul.x, ul.y, (lr.x - ul.x), (lr.y - ul.y));
         } else {
-            this._context.fillStyle = color;
-            this._context.fillRect(ul.x, ul.y, (lr.x - ul.x), (lr.y - ul.y));
+            context.fillStyle = color;
+            context.fillRect(ul.x, ul.y, (lr.x - ul.x), (lr.y - ul.y));
         }
     }
 
@@ -112,43 +107,37 @@ class CanvasCamera {
         return this._translationMatrix.transformVector2(x, y);
     }
 
-    updateTranslationMatrix(updateCanvas=true) {
+    updateCanvas(context) {
+        context.setTransform(
+            this._zoom, 
+            0, 
+            0, 
+            this._zoom, 
+            this._position.x,
+            this._position.y,
+        );
+    }
+
+    updateTranslationMatrix() {
         this._translationMatrix = Matrix4D.fromTranslation(-this._position.x, -this._position.y, 0)
             .mult(Matrix4D.fromRotationZ(this._rotation))
             .mult(Matrix4D.fromScale(1 / this._zoom, 1 / this._zoom, 1));
-
-        if (updateCanvas) {
-            this._context.setTransform(
-                this._zoom, 
-                0, 
-                0, 
-                this._zoom, 
-                this._position.x,
-                this._position.y,
-            );
-        }
     }
 
-    setZoom(zoom, updateTransforms=true, updateCanvas=true) {
+    setZoom(zoom, updateTransforms=true) {
         this._zoom = zoom;
-        if (updateTransforms) this.updateTranslationMatrix(updateCanvas);
+        if (updateTransforms) this.updateTranslationMatrix();
     }
 
-    setPosition(x, y, updateTransforms=true, updateCanvas=true) {
+    setPosition(x, y, updateTransforms=true) {
         this._position.x = x;
         this._position.y = y;
-        if (updateTransforms) this.updateTranslationMatrix(updateCanvas);
+        if (updateTransforms) this.updateTranslationMatrix();
     }
 
-    setRotation(radians, updateTransforms=true, updateCanvas=true) {
+    setRotation(radians, updateTransforms=true) {
         this._rotation = radians;
-        if (updateTransforms) this.updateTranslationMatrix(updateCanvas);
-    }
-
-    setViewport(vw, vh, updateTransforms=true, updateCanvas=true) {
-        this._viewportWidth = vw;
-        this._viewportHeight = vh;
-        if (updateTransforms) this.updateTranslationMatrix(updateCanvas);
+        if (updateTransforms) this.updateTranslationMatrix();
     }
 }
 
@@ -162,7 +151,7 @@ class MouseCanvasCamera extends CanvasCamera {
     static SCROLL_SENSITIVITY = 0.001;
 
     constructor(canvas) {
-        super(canvas);
+        super();
         
         this.onPointerDown = this.onPointerDown.bind(this);
         this.onPointerUp = this.onPointerUp.bind(this);

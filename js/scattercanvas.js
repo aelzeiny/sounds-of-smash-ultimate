@@ -43,27 +43,70 @@ function rangeSearch(root, x, y, dist) {
 }
 
 
+class PlayerManager {
+    static MAX_AUDIO = 10;
+    static PAUSE_TIME = 2000;
+
+    constructor() {
+        this.nowPlaying = {};
+        this.cache = {};
+        this.onPause = new Set();
+    }
+
+    play(audioSrc) {
+        if (this.nowPlaying.size >= PlayerManager.MAX_AUDIO || audioSrc in this.nowPlaying || this.onPause.has(audioSrc)) {
+            return;
+        } else {
+            if (!(audioSrc in this.cache)) {
+                this.cache[audioSrc] = new Audio(this.fileToUrl(audioSrc));
+                this.cache[audioSrc].load();
+            }
+            this.nowPlaying[audioSrc] = this.cache[audioSrc];
+            this.onPause.add(audioSrc);
+            this.nowPlaying[audioSrc].play();
+        }
+    }
+
+    update() {
+        const toRemove = [];
+        for (let audioSrc in this.nowPlaying) {
+            if (this.nowPlaying[audioSrc].ended) {
+                toRemove.push(audioSrc);
+            }
+        }
+        for (let audioSrc of toRemove) {
+            delete this.nowPlaying[audioSrc];
+            setTimeout(() => this.onPause.delete(audioSrc), PlayerManager.PAUSE_TIME);
+        }
+    }
+
+    fileToUrl(audioSrc) {
+        return 'https://f004.backblazeb2.com/file/sounds-of-smash/' + audioSrc;
+    }
+}
+
+
 function initSoundsOfSmash(soundsOfSmash) {
     console.table(soundsOfSmash.slice(0, 5));
     const canvas = $('#smash-scattercanvas').get(0);
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const camera = new MouseCanvasCamera(canvas);
+    const player = new PlayerManager();
+    camera.setZoom(0.8);
     let mousePos = {x: 0, y: 0};
 
     let sepX, sepXW, sepY, sepYW;
-    let halfDim;
 
     function rearrangePointCloud() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        // camera.setViewport(canvas.width, canvas.height);
 
         dim = Math.min(window.innerWidth, innerHeight);
         sepX = (.25 * dim);
         sepXW = (.35 * dim) - sepX;
         sepY = (.6 * dim);
-        sepYW = (.65 * dim) -sepY;
+        sepYW = (.65 * dim) - sepY;
         for(let sound of soundsOfSmash) {
             let sx = sound.x * dim;
             if (sx > sepX) sx += sepXW;
@@ -75,20 +118,35 @@ function initSoundsOfSmash(soundsOfSmash) {
     }
 
     function draw() {
-        const ctx = canvas.getContext("2d");
-        camera.clear("#171717");
+        const ctx = canvas.getContext('2d');
+        camera.updateCanvas(ctx);
+        player.update();
+        camera.clear(ctx, "#171717", canvas.width, canvas.height);
 
         const radius = Math.min(5 / camera._zoom, 5);
+        const mouseRadius = radius * 3;
+        const mouseRadiusSq = mouseRadius * mouseRadius;
         for(let sound of soundsOfSmash) {
-            ctx.fillStyle = sound.hex;
-            drawCircle(ctx, sound.posX, sound.posY, radius);
+            const deltaX = (sound.posX - mousePos.x);
+            const deltaY = (sound.posY - mousePos.y);
+            const distSq = deltaX * deltaX + deltaY * deltaY;
+            if (distSq < mouseRadiusSq) {
+                player.play(sound.file);
+                ctx.fillStyle = 'white';
+                drawCircle(ctx, sound.posX, sound.posY, radius);
+            } else {
+                ctx.fillStyle = sound.hex;
+                drawCircle(ctx, sound.posX, sound.posY, radius);
+            }
         }
+        // if (inRange.length)
+        //     console.table(inRange);
         ctx.fillStyle = "#1717179c";
         drawRect(ctx, sepX, 0, sepXW, dim);
         drawRect(ctx, 0, sepY, dim, sepYW);
 
-        ctx.fillStyle = "#1717179c";
-        drawCircle(ctx, mousePos.x, mousePos.y, radius * 3);
+        // ctx.fillStyle = "#1717179c";
+        // drawCircle(ctx, mousePos.x, mousePos.y, mouseRadius);
 
         window.requestAnimationFrame(draw);
     }
@@ -120,10 +178,11 @@ function initSoundsOfSmash(soundsOfSmash) {
     window.requestAnimationFrame(draw);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+$('#start-btn').click(() => {
+    $('#headphone-warning').addClass('hidden');
     $.getJSON("https://raw.githubusercontent.com/aelzeiny/sounds-of-smash-utlimate/main/data/sounds_of_smash.json", (soundsOfSmash) => {
         initSoundsOfSmash(soundsOfSmash);
     }).fail(function() {
-        console.log("Error fetching SoundsOfSmash data");
+        alert("Error fetching SoundsOfSmash data.");
     });
 });
