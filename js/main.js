@@ -119,9 +119,9 @@ function initTypeFilters() {
 
 
 $(document).ready(() => {
+    // start();  // For debugging purposes.
     $('#start-btn').click(start);
     adjustCharacterWell();
-    start();
     initSearch();
     initCharacterFilters();
     initTypeFilters();
