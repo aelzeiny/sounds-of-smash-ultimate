@@ -15,6 +15,7 @@ label.btn.btn-outline-dark {
 .form-control:focus {
     background-color: #212529;
     border-color: #212529;
+    color: white;
 }
 
 .form-control:focus {

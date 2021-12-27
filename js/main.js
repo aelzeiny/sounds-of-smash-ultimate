@@ -1,13 +1,17 @@
 /**
  * Launch the canvas. Hide headphone warning.
  */
+
+const soundsOfSmashKV = {};
+
 function start() {
     $('#headphone-warning').addClass('hidden');
     $('#filter-bar').removeClass('hidden');
     $.getJSON("https://raw.githubusercontent.com/aelzeiny/sounds-of-smash-utlimate/main/data/sounds_of_smash.json", (soundsOfSmash) => {
-        const soundsOfSmashKV = {};
         for (let sound of soundsOfSmash) {
             soundsOfSmashKV[sound.file] = sound;
+            sound.enabledChar = true;
+            sound.enabledType = true;
         }
         initSoundsOfSmash(soundsOfSmashKV);
 
@@ -30,7 +34,7 @@ function initSearch() {
     const chars = Array.from($('.char-list')).map($);
     const charNames = Array.from(chars).map(c => c.data('search').split(' '));
     charSearch.on('input', () => {
-        const searchTerms = charSearch.val().split(' ');
+        const searchTerms = charSearch.val().toLowerCase().split(' ');
         for (let c = 0; c < charNames.length; c++) {
             let foundTerm = false;
             for (let t = 0; t < charNames[c].length && !foundTerm; t++) {
@@ -47,19 +51,42 @@ function initSearch() {
     });
 }
 
-$(document).ready(() => {
-    $('#start-btn').click(start);
-    adjustCharacterWell();
-    // start();
-    initSearch();
+function initCharacterFilters() {
+    const enabledChars = new Set($('.char-list').map((_, e) => e.dataset.name));
+
+    function updateCharList(chars, shouldEnable) {
+        if (!shouldEnable) {
+            chars.addClass('disabled');
+            for (let char of Array.from(chars)) {
+                enabledChars.delete(char.dataset.name);
+            }
+        } else {
+            chars.removeClass('disabled');
+            for (let char of Array.from(chars)) {
+                enabledChars.add(char.dataset.name);
+            }
+        }
+
+        for (let sound of Object.values(soundsOfSmashKV)) {
+            sound.enabledChar = false;
+            for (let chr of sound.chars) {
+                if (enabledChars.has(chr)) {
+                    sound.enabledChar = true;
+                    break;
+                }
+            }
+        }
+    }
 
     function updateCheckboxParent(box) {
         const char = box.parents('.char-list');
-        if (!box.prop('checked')) {
-            char.addClass('disabled');
-        } else {
-            char.removeClass('disabled');
-        }
+        updateCharList(char, box.prop('checked'));
+    }
+
+    function setAllFilters(shouldEnable) {
+        const charList = $('.char-list');
+        updateCharList(charList, shouldEnable);
+        charList.find('.form-check-input').prop('checked', shouldEnable);
     }
 
     $('img').click((e) => {
@@ -67,21 +94,37 @@ $(document).ready(() => {
         box.prop('checked', !box.prop('checked'));
         updateCheckboxParent(box);
     });
-
-    // Checkbox Mojo
     $('.char-list .form-check-input').change((e) => updateCheckboxParent($(e.target)));
-
-    // Filter all / none
-    function setAllFilters(selectAll) {
-        const charList = $('.char-list');
-        if (selectAll)
-            charList.removeClass('disabled');
-        else
-            charList.addClass('disabled');
-        charList.find('.form-check-input').prop('checked', selectAll);
-    }
     $('#char-select-all').click(setAllFilters.bind(window, true));
     $('#char-select-none').click(setAllFilters.bind(window, false));
+}
+
+function initTypeFilters() {
+    $('#type-select-all').click(() => {
+        for (let sound of Object.values(soundsOfSmashKV)) {
+            sound.enabledType = true;
+        }
+    });
+    $('#type-select-voices').click(() => {
+        for (let sound of Object.values(soundsOfSmashKV)) {
+            sound.enabledType = sound.file.startsWith('vc_');
+        }
+    });
+    $('#type-select-sfx').click(() => {
+        for (let sound of Object.values(soundsOfSmashKV)) {
+            sound.enabledType = sound.file.startsWith('se_');
+        }
+    });
+}
+
+
+$(document).ready(() => {
+    $('#start-btn').click(start);
+    adjustCharacterWell();
+    start();
+    initSearch();
+    initCharacterFilters();
+    initTypeFilters();
 });
 
 $(document).resize(adjustCharacterWell);

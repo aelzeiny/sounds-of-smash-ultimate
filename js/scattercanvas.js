@@ -108,6 +108,9 @@ function initSoundsOfSmash(soundsOfSmash) {
         const mouseRadius = radius * 3;
         const mouseRadiusSq = mouseRadius * mouseRadius;
         for (let sound of Object.values(soundsOfSmash)) {
+            if (!(sound.enabledChar && sound.enabledType)) {
+                continue;
+            }
             const deltaX = (sound.posX - mousePos.x);
             const deltaY = (sound.posY - mousePos.y);
             const distSq = deltaX * deltaX + deltaY * deltaY;
@@ -117,12 +120,10 @@ function initSoundsOfSmash(soundsOfSmash) {
             ctx.fillStyle = sound.hex;
             drawCircle(ctx, sound.posX, sound.posY, radius);
         }
-        for (let [fileKey, audioPlayer] of player.nowPlaying) {
+        for (let [fileKey, _] of player.nowPlaying) {
             const sound = soundsOfSmash[fileKey];
             ctx.fillStyle = 'white';
             drawCircle(ctx, sound.posX, sound.posY, radius);
-            // console.log(audioPlayer.duration, audioPlayer.currentTime);
-            // console.log(player.charToImg(sound.chars[0]));
         }
         ctx.fillStyle = "#0e11179c";
         drawRect(ctx, sepX, 0, sepXW, dim);
