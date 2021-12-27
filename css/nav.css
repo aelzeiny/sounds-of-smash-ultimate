@@ -91,7 +91,44 @@ ul.char-list-unordered {
     margin: 8px;
 }
 
+.mobile-only {
+    display: none !important;
+}
 
-/* .char-list:hover {
-    background: repeating-linear-gradient( 45deg, black, black 10px, #444 10px, #444 11px);
-} */
+.btn-sidebar {
+    color: #67cb5a;
+    position: absolute;
+    border-color: #67cb5a;
+    background-color: #0f1118;
+    top: 1em;
+    right: 1em;
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow: hidden;
+    }
+    .mobile-only {
+        display: inline-block !important;
+    }
+    #filter-bar {
+        width: 100%;
+        overflow-y: auto;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 300ms ease-in;
+    }
+    #filter-bar.active {
+        visibility: visible;
+        opacity: 1;
+    }
+    #open-sidebar-btn {
+        visibility: initial;
+    }
+    #open-sidebar-btn.hidden {
+        visibility: hidden;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+}

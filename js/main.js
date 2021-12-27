@@ -6,6 +6,7 @@ const soundsOfSmashKV = {};
 
 function start() {
     $('#headphone-warning').addClass('hidden');
+    $('#open-sidebar-btn').removeClass('hidden');
     $('#filter-bar').removeClass('hidden');
     $.getJSON("https://raw.githubusercontent.com/aelzeiny/sounds-of-smash-utlimate/main/data/sounds_of_smash.json", (soundsOfSmash) => {
         for (let sound of soundsOfSmash) {
@@ -121,6 +122,14 @@ function initTypeFilters() {
 $(document).ready(() => {
     // start();  // For debugging purposes.
     $('#start-btn').click(start);
+    $('#open-sidebar-btn').click(() => {
+        $('#filter-bar').addClass('active');
+        $('#open-sidebar-btn').addClass('hidden');
+    });
+    $('#close-sidebar-btn').click(() => {
+        $('#filter-bar').removeClass('active');
+        $('#open-sidebar-btn').removeClass('hidden');
+    });
     adjustCharacterWell();
     initSearch();
     initCharacterFilters();

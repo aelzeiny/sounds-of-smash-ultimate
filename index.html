@@ -36,7 +36,6 @@
 </head>
 
 <body>
-    <!-- <h1>Sounds of Smash Ultimate</h1> -->
     <div id="headphone-warning">
         <h3>Sounds of Smash</h3>
         <p>This website has 11K audio clips from Super Smash Bros. Ultimate.</p><br />
@@ -46,11 +45,23 @@
         </svg>
         <p>Headphone users be warned, loud sounds ahead.</p><br />
         <button type="button" class="btn btn-dark" id="start-btn">continue</button>
-        <p id="disclaimer">This is a fan-made website. "Super Smash Bros." is the intellectual property of Nintendo, if you enjoy this site you should buy their game.</p>
+        <p id="disclaimer">
+            This is a fan-made website. "Super Smash Bros." is the intellectual property of Nintendo, if you enjoy this site you should buy their game.</p>
     </div>
+    <btn id="open-sidebar-btn" class="btn btn-sidebar btn-outline-dark mobile-only hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </btn>
     <canvas id="smash-scattercanvas"></canvas>
     <nav id="filter-bar" class="hidden">
         <h1>Sounds of Smash</h1>
+        <btn id="close-sidebar-btn" class="btn btn-sidebar btn-outline-dark mobile-only">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+            </svg>
+        </btn>
         <div class="filter-div type-filter-div">
             <h4>Filter By Type</h4>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
