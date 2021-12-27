@@ -79,16 +79,16 @@ class Matrix4D {
     }
 
     static identity() {
-        return new Matrix4D({m11: 1, m22: 1, m33: 1, m44: 1});
+        return new Matrix4D({ m11: 1, m22: 1, m33: 1, m44: 1 });
     }
 }
 
 class CanvasCamera {
     constructor(canvas) {
-        this._position = {x: 0, y: 0};
+        this._position = { x: 0, y: 0 };
         this._zoom = 1;
         this._rotation = 0;
-        
+
         this.updateTranslationMatrix();
     }
 
@@ -109,10 +109,10 @@ class CanvasCamera {
 
     updateCanvas(context) {
         context.setTransform(
-            this._zoom, 
-            0, 
-            0, 
-            this._zoom, 
+            this._zoom,
+            0,
+            0,
+            this._zoom,
             this._position.x,
             this._position.y,
         );
@@ -124,18 +124,18 @@ class CanvasCamera {
             .mult(Matrix4D.fromScale(1 / this._zoom, 1 / this._zoom, 1));
     }
 
-    setZoom(zoom, updateTransforms=true) {
+    setZoom(zoom, updateTransforms = true) {
         this._zoom = zoom;
         if (updateTransforms) this.updateTranslationMatrix();
     }
 
-    setPosition(x, y, updateTransforms=true) {
+    setPosition(x, y, updateTransforms = true) {
         this._position.x = x;
         this._position.y = y;
         if (updateTransforms) this.updateTranslationMatrix();
     }
 
-    setRotation(radians, updateTransforms=true) {
+    setRotation(radians, updateTransforms = true) {
         this._rotation = radians;
         if (updateTransforms) this.updateTranslationMatrix();
     }
@@ -152,7 +152,7 @@ class MouseCanvasCamera extends CanvasCamera {
 
     constructor(canvas) {
         super();
-        
+
         this.onPointerDown = this.onPointerDown.bind(this);
         this.onPointerUp = this.onPointerUp.bind(this);
         this.onPointerMove = this.onPointerMove.bind(this);
@@ -177,14 +177,18 @@ class MouseCanvasCamera extends CanvasCamera {
 
         this.initialZoomMouse = null;
     }
-    
+
     getEventLocation(e) {
         if (e && e.touches && e.touches.length == 1) {
             return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }
-        else if (e && e.clientX && e.clientY) {
+        } else if (e && e.clientX && e.clientY) {
             return { x: e.clientX, y: e.clientY };
         }
+    }
+
+    setZoom(zoom, updateTransforms = true) {
+        super.setZoom(zoom, updateTransforms);
+        this.lastZoom = zoom;
     }
 
     // Gets the relevant location from a mouse or single touch event
@@ -213,12 +217,11 @@ class MouseCanvasCamera extends CanvasCamera {
             }
         }
     }
-    
+
     handleTouch(e, singleTouchHandler) {
         if (e.touches.length == 1) {
             singleTouchHandler(e);
-        }
-        else if (e.type == "touchmove" && e.touches.length == 2) {
+        } else if (e.type == "touchmove" && e.touches.length == 2) {
             this.isDragging = false;
             handlePinch(e);
         }
@@ -235,8 +238,7 @@ class MouseCanvasCamera extends CanvasCamera {
 
         if (this.initialPinchDistance == null) {
             this.initialPinchDistance = currentDistance;
-        }
-        else {
+        } else {
             adjustZoom(null, currentDistance / this.initialPinchDistance);
         }
     }
@@ -260,12 +262,11 @@ class MouseCanvasCamera extends CanvasCamera {
         }
     }
 
-    adjustZoom(zoomAmount, zoomFactor, updateCanvas=true) {
+    adjustZoom(zoomAmount, zoomFactor, updateCanvas = true) {
         if (!this.isDragging) {
             if (zoomAmount) {
                 this.setZoom(this._zoom + zoomAmount, false, false);
-            }
-            else if (zoomFactor) {
+            } else if (zoomFactor) {
                 this.setZoom(zoomFactor * this.lastZoom, false, false);
             }
 

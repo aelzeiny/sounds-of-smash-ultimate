@@ -26,8 +26,10 @@ function start() {
  */
 function adjustCharacterWell() {
     const overflow = $('.char-list-unordered')[0];
-    const { y } = overflow.getBoundingClientRect();
-    $(overflow).css('height', window.innerHeight - y + 'px');
+    const { y, height } = overflow.getBoundingClientRect();
+    if (height && window.innerHeight - y > 0) {
+        $(overflow).css('height', window.innerHeight - y + 'px');
+    }
 }
 
 function initSearch() {
@@ -136,4 +138,4 @@ $(document).ready(() => {
     initTypeFilters();
 });
 
-$(document).resize(adjustCharacterWell);
+$(window).resize(adjustCharacterWell);

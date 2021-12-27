@@ -30,7 +30,7 @@ label.btn.btn-outline-dark {
     color: white;
     height: 100vh;
     background-color: #0e11179c;
-    border: 1px solid #303e5a8f;
+    border-left: 1px solid #303e5a8f;
     box-sizing: border-box;
     overflow-y: hidden;
 }
@@ -68,6 +68,10 @@ ul.char-list-unordered {
 .filter-div {
     padding: 8px;
     padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .filter-div h4 {
@@ -105,15 +109,12 @@ ul.char-list-unordered {
 }
 
 @media (max-width: 768px) {
-    body {
-        overflow: hidden;
-    }
     .mobile-only {
         display: inline-block !important;
     }
     #filter-bar {
-        width: 100%;
         overflow-y: auto;
+        width: 100%;
         visibility: hidden;
         opacity: 0;
         transition: opacity 300ms ease-in;
