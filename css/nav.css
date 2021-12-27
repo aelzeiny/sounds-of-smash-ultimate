@@ -116,12 +116,9 @@ ul.char-list-unordered {
         overflow-y: auto;
         width: 100%;
         visibility: hidden;
-        opacity: 0;
-        transition: opacity 300ms ease-in;
     }
     #filter-bar.active {
         visibility: visible;
-        opacity: 1;
     }
     #open-sidebar-btn {
         visibility: initial;
