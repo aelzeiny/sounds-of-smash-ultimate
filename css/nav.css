@@ -1,0 +1,96 @@
+h1 {
+    margin: 8px;
+    padding: 8px;
+    background: -webkit-linear-gradient( 1deg, #440154, #482475, #414487, #355f8d, #2a788e, #21908d, #22a884, #42be71, #7ad151, #bddf26, #BDDF26);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+label.btn.btn-outline-dark {
+    color: #a8b2bb;
+    border-color: #212529;
+}
+
+.form-control,
+.form-control:focus {
+    background-color: #212529;
+    border-color: #212529;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgb(161 161 161 / 25%);
+}
+
+#filter-bar {
+    display: initial;
+    width: 389px;
+    position: absolute;
+    right: 0;
+    color: white;
+    height: 100vh;
+    background-color: #0e11179c;
+    border: 1px solid #303e5a8f;
+    box-sizing: border-box;
+    overflow-y: hidden;
+}
+
+#filter-bar.hidden {
+    visibility: hidden;
+}
+
+ul.char-list-unordered {
+    padding-left: 0;
+    overflow-y: scroll;
+}
+
+.char-list {
+    position: relative;
+    height: 100px;
+    width: 100%;
+    border-bottom: #333333 1px dashed;
+    filter: grayscale(0%);
+    transition: filter 0.3s ease;
+}
+
+.char-list.disabled {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.char-form {
+    position: absolute;
+    left: 8px;
+    top: 30%;
+}
+
+.filter-div {
+    padding: 8px;
+    padding-top: 16px;
+}
+
+.filter-div h4 {
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.char-filter-div {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.char-filter-div h4 {
+    padding-left: 8px;
+}
+
+.char-filter-btn-grp {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 8px;
+}
+
+
+/* .char-list:hover {
+    background: repeating-linear-gradient( 45deg, black, black 10px, #444 10px, #444 11px);
+} */

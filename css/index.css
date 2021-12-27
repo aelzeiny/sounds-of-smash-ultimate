@@ -1,6 +1,15 @@
 body {
     font-family: 'Roboto Mono', monospace;
-    background-color: #171717 !important;
+    background-color: #0e1117 !important;
+}
+
+.form-check-input {
+    background-color: black;
+}
+
+.form-check-input:checked {
+    background-color: inherit;
+    border: inherit;
 }
 
 #headphone-warning.hidden {
@@ -42,4 +51,10 @@ body {
 #headphone-warning button {
     margin-top: -.5rem;
     margin-bottom: 1em;
+}
+
+h1,
+h3 {
+    font-family: 'Pacifico', cursive;
+    text-align: center;
 }

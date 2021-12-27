@@ -21,34 +21,651 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <link rel="stylesheet" href="css/reset.css">
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- GFonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <script src="js/canvas_camera.js"></script>
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/nav.css">
 </head>
 
 <body>
     <!-- <h1>Sounds of Smash Ultimate</h1> -->
     <div id="headphone-warning">
         <h3>Sounds of Smash</h3>
-        <p>This website has 11K audio clips from Super Smash Bros. Ultimate.</p><br/>
+        <p>This website has 11K audio clips from Super Smash Bros. Ultimate.</p><br />
         <svg xmlns="http://www.w3.org/2000/svg" width="6em" height="6em" fill="currentColor" class="bi bi-headphones" viewBox="0 0 16 16">
-            <path d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 1 1 12 0v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1V8a5 5 0 0 0-5-5z"/>
+            <path
+                d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 1 1 12 0v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1V8a5 5 0 0 0-5-5z" />
         </svg>
-        <p>Headphone users be warned, loud sounds ahead.</p><br/>
+        <p>Headphone users be warned, loud sounds ahead.</p><br />
         <button type="button" class="btn btn-dark" id="start-btn">continue</button>
         <p id="disclaimer">This is a fan-made website. "Super Smash Bros." is the intellectual property of Nintendo, if you enjoy this site you should buy their game.</p>
     </div>
     <canvas id="smash-scattercanvas"></canvas>
+    <nav id="filter-bar" class="hidden">
+        <h1>Sounds of Smash</h1>
+        <div class="filter-div type-filter-div">
+            <h4>Filter By Type</h4>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                <label class="btn btn-outline-dark" for="btnradio1">All Sounds</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <label class="btn btn-outline-dark" for="btnradio2">Voices Only</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                <label class="btn btn-outline-dark" for="btnradio3">SFX Only</label>
+            </div>
+        </div>
+        <div class="filter-div char-filter-div">
+            <h4>Filter by Character</h4>
+            <div class="char-filter-btn-grp">
+                <button class="btn btn-sm btn-dark" type="button" id="char-select-all">Select All</button>
+                <button class="btn btn-sm btn-dark" type="button" id="char-select-none">Select None</button>
+            </div>
+            <input id="char-search" type="text" class="form-control" placeholder="search" aria-label="Fighter Search">
+            <ul class="char-list-unordered">
+                <li class="char-list" data-search="banjo kazooie" data-name="Banjo & Kazooie">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/banjo_and_kazooie.png" alt="Banjo & Kazooie" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="banjo_and_kazooie_check" checked>
+                        <label class="form-check-label" for="banjo_and_kazooie_check">Banjo & Kazooie</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="bayonetta" data-name="Bayonetta">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/bayonetta.png" alt="Bayonetta" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="bayonetta_check" checked>
+                        <label class="form-check-label" for="bayonetta_check">Bayonetta</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="bowser koopa" data-name="Bowser">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/bowser.png" alt="Bowser" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="bowser_check" checked>
+                        <label class="form-check-label" for="bowser_check">Bowser</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="bowser jr. koopa" data-name="Bowser Jr.">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/bowser_jr.png" alt="Bowser Jr." />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="bowser_jr_check" checked>
+                        <label class="form-check-label" for="bowser_jr_check">Bowser Jr.</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="byleth" data-name="Byleth">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/byleth.png" alt="Byleth" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="byleth_check" checked>
+                        <label class="form-check-label" for="byleth_check">Byleth</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="captain falcon" data-name="Captain Falcon">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/captain_falcon.png" alt="Captain Falcon" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="captain_falcon_check" checked>
+                        <label class="form-check-label" for="captain_falcon_check">Captain Falcon</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="chrom" data-name="Chrom">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/chrom.png" alt="Chrom" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="chrom_check" checked>
+                        <label class="form-check-label" for="chrom_check">Chrom</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="cloud" data-name="Cloud">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/cloud.png" alt="Cloud" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="cloud_check" checked>
+                        <label class="form-check-label" for="cloud_check">Cloud</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="corrin kamui" data-name="Corrin">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/corrin.png" alt="Corrin" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="corrin_check" checked>
+                        <label class="form-check-label" for="corrin_check">Corrin</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="daisy" data-name="Daisy">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/daisy.png" alt="Daisy" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="daisy_check" checked>
+                        <label class="form-check-label" for="daisy_check">Daisy</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="dark pit" data-name="Dark Pit">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/dark_pit.png" alt="Dark Pit" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="dark_pit_check" checked>
+                        <label class="form-check-label" for="dark_pit_check">Dark Pit</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="dark samus" data-name="Dark Samus">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/dark_samus.png" alt="Dark Samus" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="dark_samus_check" checked>
+                        <label class="form-check-label" for="dark_samus_check">Dark Samus</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="diddy kong" data-name="Diddy Kong">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/diddy_kong.png" alt="Diddy Kong" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="diddy_kong_check" checked>
+                        <label class="form-check-label" for="diddy_kong_check">Diddy Kong</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="donkey kong" data-name="Donkey Kong">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/donkey_kong.png" alt="Donkey Kong" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="donkey_kong_check" checked>
+                        <label class="form-check-label" for="donkey_kong_check">Donkey Kong</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="dr. mario" data-name="Dr. Mario">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/dr_mario.png" alt="Dr. Mario" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="dr_mario_check" checked>
+                        <label class="form-check-label" for="dr_mario_check">Dr. Mario</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="duck hunt" data-name="Duck Hunt">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/duck_hunt.png" alt="Duck Hunt" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="duck_hunt_check" checked>
+                        <label class="form-check-label" for="duck_hunt_check">Duck Hunt</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="falco" data-name="Falco">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/falco.png" alt="Falco" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="falco_check" checked>
+                        <label class="form-check-label" for="falco_check">Falco</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="fox" data-name="Fox">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/fox.png" alt="Fox" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="fox_check" checked>
+                        <label class="form-check-label" for="fox_check">Fox</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="ganondorf" data-name="Ganondorf">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/ganondorf.png" alt="Ganondorf" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="ganondorf_check" checked>
+                        <label class="form-check-label" for="ganondorf_check">Ganondorf</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="greninja" data-name="Greninja">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/greninja.png" alt="Greninja" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="greninja_check" checked>
+                        <label class="form-check-label" for="greninja_check">Greninja</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="hero" data-name="Hero">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/hero.png" alt="Hero" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="hero_check" checked>
+                        <label class="form-check-label" for="hero_check">Hero</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="ice climbers" data-name="Ice Climbers">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/ice_climbers.png" alt="Ice Climbers" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="ice_climbers_check" checked>
+                        <label class="form-check-label" for="ice_climbers_check">Ice Climbers</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="ike" data-name="Ike">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/ike.png" alt="Ike" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="ike_check" checked>
+                        <label class="form-check-label" for="ike_check">Ike</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="inceneroar gaogaen" data-name="Inceneroar">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/inceneroar.png" alt="Inceneroar" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="inceneroar_check" checked>
+                        <label class="form-check-label" for="inceneroar_check">Inceneroar</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="inkling" data-name="Inkling">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/inkling.png" alt="Inkling" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="inkling_check" checked>
+                        <label class="form-check-label" for="inkling_check">Inkling</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="isabelle shizue" data-name="Isabelle">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/isabelle.png" alt="Isabelle" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="isabelle_check" checked>
+                        <label class="form-check-label" for="isabelle_check">Isabelle</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="jigglypuff" data-name="Jigglypuff">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/jigglypuff.png" alt="Jigglypuff" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="jigglypuff_check" checked>
+                        <label class="form-check-label" for="jigglypuff_check">Jigglypuff</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="joker" data-name="Joker">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/joker.png" alt="Joker" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="joker_check" checked>
+                        <label class="form-check-label" for="joker_check">Joker</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="kazuya" data-name="Kazuya">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/kazuya.png" alt="Kazuya" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="kazuya_check" checked>
+                        <label class="form-check-label" for="kazuya_check">Kazuya</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="ken" data-name="Ken">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/ken.png" alt="Ken" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="ken_check" checked>
+                        <label class="form-check-label" for="ken_check">Ken</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="king dedede" data-name="King Dedede">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/king_dedede.png" alt="King Dedede" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="king_dedede_check" checked>
+                        <label class="form-check-label" for="king_dedede_check">King Dedede</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="king k. rool" data-name="King K. Rool">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/king_k_rool.png" alt="King K. Rool" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="king_k_rool_check" checked>
+                        <label class="form-check-label" for="king_k_rool_check">King K. Rool</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="kirby" data-name="Kirby">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/kirby.png" alt="Kirby" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="kirby_check" checked>
+                        <label class="form-check-label" for="kirby_check">Kirby</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="link" data-name="Link">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/link.png" alt="Link" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="link_check" checked>
+                        <label class="form-check-label" for="link_check">Link</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="little mac" data-name="Little Mac">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/little_mac.png" alt="Little Mac" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="little_mac_check" checked>
+                        <label class="form-check-label" for="little_mac_check">Little Mac</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="lucario" data-name="Lucario">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/lucario.png" alt="Lucario" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="lucario_check" checked>
+                        <label class="form-check-label" for="lucario_check">Lucario</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="lucas" data-name="Lucas">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/lucas.png" alt="Lucas" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="lucas_check" checked>
+                        <label class="form-check-label" for="lucas_check">Lucas</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="lucina" data-name="Lucina">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/lucina.png" alt="Lucina" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="lucina_check" checked>
+                        <label class="form-check-label" for="lucina_check">Lucina</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="luigi" data-name="Luigi">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/luigi.png" alt="Luigi" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="luigi_check" checked>
+                        <label class="form-check-label" for="luigi_check">Luigi</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="mario" data-name="Mario">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/mario.png" alt="Mario" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="mario_check" checked>
+                        <label class="form-check-label" for="mario_check">Mario</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="marth" data-name="Marth">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/marth.png" alt="Marth" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="marth_check" checked>
+                        <label class="form-check-label" for="marth_check">Marth</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="mega man" data-name="Mega Man">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/mega_man.png" alt="Mega Man" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="mega_man_check" checked>
+                        <label class="form-check-label" for="mega_man_check">Mega Man</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="meta knight" data-name="Meta Knight">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/meta_knight.png" alt="Meta Knight" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="meta_knight_check" checked>
+                        <label class="form-check-label" for="meta_knight_check">Meta Knight</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="mewtwo" data-name="Mewtwo">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/mewtwo.png" alt="Mewtwo" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="mewtwo_check" checked>
+                        <label class="form-check-label" for="mewtwo_check">Mewtwo</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="mii" data-name="Mii">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/mii.png" alt="Mii" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="mii_check" checked>
+                        <label class="form-check-label" for="mii_check">Mii</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="min min" data-name="Min Min">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/min_min.png" alt="Min Min" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="min_min_check" checked>
+                        <label class="form-check-label" for="min_min_check">Min Min</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="mr. game watch" data-name="Mr. Game & Watch">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/mr_game_and_watch.png" alt="Mr. Game & Watch" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="mr_game_and_watch_check" checked>
+                        <label class="form-check-label" for="mr_game_and_watch_check">Mr. Game & Watch</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="ness" data-name="Ness">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/ness.png" alt="Ness" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="ness_check" checked>
+                        <label class="form-check-label" for="ness_check">Ness</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="olimar" data-name="Olimar">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/olimar.png" alt="Olimar" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="olimar_check" checked>
+                        <label class="form-check-label" for="olimar_check">Olimar</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="pac man" data-name="Pac Man">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/pac_man.png" alt="Pac Man" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="pac_man_check" checked>
+                        <label class="form-check-label" for="pac_man_check">Pac Man</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="palutena" data-name="Palutena">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/palutena.png" alt="Palutena" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="palutena_check" checked>
+                        <label class="form-check-label" for="palutena_check">Palutena</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="peach" data-name="Peach">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/peach.png" alt="Peach" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="peach_check" checked>
+                        <label class="form-check-label" for="peach_check">Peach</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="pichu" data-name="Pichu">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/pichu.png" alt="Pichu" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="pichu_check" checked>
+                        <label class="form-check-label" for="pichu_check">Pichu</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="pikachu" data-name="Pikachu">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/pikachu.png" alt="Pikachu" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="pikachu_check" checked>
+                        <label class="form-check-label" for="pikachu_check">Pikachu</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="piranha plant" data-name="Piranha Plant">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/piranha_plant.png" alt="Piranha Plant" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="piranha_plant_check" checked>
+                        <label class="form-check-label" for="piranha_plant_check">Piranha Plant</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="pit" data-name="Pit">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/pit.png" alt="Pit" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="pit_check" checked>
+                        <label class="form-check-label" for="pit_check">Pit</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="pokemon trainer charzard squirtl data-name=" Pokemon Trainer "e ivysaur zenigame lizardon fushigisou">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/pokemon_trainer.png" alt="Pokemon Trainer" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="pokemon_trainer_check" checked>
+                        <label class="form-check-label" for="pokemon_trainer_check">Pokemon Trainer</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="pyra mithra" data-name="Pyra / Mithra">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/pyra_mithra.png" alt="Pyra / Mithra" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="pyra_mithra_check" checked>
+                        <label class="form-check-label" for="pyra_mithra_check">Pyra / Mithra</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="richter" data-name="Richter">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/richter.png" alt="Richter" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="richter_check" checked>
+                        <label class="form-check-label" for="richter_check">Richter</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="ridley" data-name="Ridley">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/ridley.png" alt="Ridley" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="ridley_check" checked>
+                        <label class="form-check-label" for="ridley_check">Ridley</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="rob" data-name="Rob">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/rob.png" alt="Rob" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="rob_check" checked>
+                        <label class="form-check-label" for="rob_check">Rob</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="robin" data-name="Robin">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/robin.png" alt="Robin" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="robin_check" checked>
+                        <label class="form-check-label" for="robin_check">Robin</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="rosalina luma" data-name="Rosalina & Luma">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/rosalina_and_luma.png" alt="Rosalina & Luma" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="rosalina_and_luma_check" checked>
+                        <label class="form-check-label" for="rosalina_and_luma_check">Rosalina & Luma</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="roy" data-name="Roy">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/roy.png" alt="Roy" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="roy_check" checked>
+                        <label class="form-check-label" for="roy_check">Roy</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="ryu" data-name="Ryu">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/ryu.png" alt="Ryu" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="ryu_check" checked>
+                        <label class="form-check-label" for="ryu_check">Ryu</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="samus" data-name="Samus">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/samus.png" alt="Samus" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="samus_check" checked>
+                        <label class="form-check-label" for="samus_check">Samus</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="sephiroth" data-name="Sephiroth">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/sephiroth.png" alt="Sephiroth" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="sephiroth_check" checked>
+                        <label class="form-check-label" for="sephiroth_check">Sephiroth</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="sheik" data-name="Sheik">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/sheik.png" alt="Sheik" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="sheik_check" checked>
+                        <label class="form-check-label" for="sheik_check">Sheik</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="shulk" data-name="Shulk">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/shulk.png" alt="Shulk" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="shulk_check" checked>
+                        <label class="form-check-label" for="shulk_check">Shulk</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="simon" data-name="Simon">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/simon.png" alt="Simon" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="simon_check" checked>
+                        <label class="form-check-label" for="simon_check">Simon</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="snake" data-name="Snake">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/snake.png" alt="Snake" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="snake_check" checked>
+                        <label class="form-check-label" for="snake_check">Snake</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="sonic" data-name="Sonic">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/sonic.png" alt="Sonic" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="sonic_check" checked>
+                        <label class="form-check-label" for="sonic_check">Sonic</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="sora" data-name="Sora">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/sora.png" alt="Sora" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="sora_check" checked>
+                        <label class="form-check-label" for="sora_check">Sora</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="steve alex" data-name="Steve / Alex">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/steve_alex.png" alt="Steve / Alex" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="steve_alex_check" checked>
+                        <label class="form-check-label" for="steve_alex_check">Steve / Alex</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="terry" data-name="Terry">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/terry.png" alt="Terry" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="terry_check" checked>
+                        <label class="form-check-label" for="terry_check">Terry</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="toon link" data-name="Toon Link">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/toon_link.png" alt="Toon Link" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="toon_link_check" checked>
+                        <label class="form-check-label" for="toon_link_check">Toon Link</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="villager" data-name="Villager">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/villager.png" alt="Villager" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="villager_check" checked>
+                        <label class="form-check-label" for="villager_check">Villager</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="wario" data-name="Wario">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/wario.png" alt="Wario" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="wario_check" checked>
+                        <label class="form-check-label" for="wario_check">Wario</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="wii fit trainer" data-name="Wii Fit Trainer">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/wii_fit_trainer.png" alt="Wii Fit Trainer" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="wii_fit_trainer_check" checked>
+                        <label class="form-check-label" for="wii_fit_trainer_check">Wii Fit Trainer</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="wolf" data-name="Wolf">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/wolf.png" alt="Wolf" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="wolf_check" checked>
+                        <label class="form-check-label" for="wolf_check">Wolf</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="yoshi" data-name="Yoshi">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/yoshi.png" alt="Yoshi" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="yoshi_check" checked>
+                        <label class="form-check-label" for="yoshi_check">Yoshi</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="young link" data-name="Young Link">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/young_link.png" alt="Young Link" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="young_link_check" checked>
+                        <label class="form-check-label" for="young_link_check">Young Link</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="zelda" data-name="Zelda">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/zelda.png" alt="Zelda" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="zelda_check" checked>
+                        <label class="form-check-label" for="zelda_check">Zelda</label>
+                    </div>
+                </li>
+                <li class="char-list" data-search="zero suit samus" data-name="Zero Suit Samus">
+                    <image src="https://f004.backblazeb2.com/file/sounds-of-smash/pics/zero_suit_samus.png" alt="Zero Suit Samus" />
+                    <div class="char-form">
+                        <input class="form-check-input" type="checkbox" value="" id="zero_suit_samus_check" checked>
+                        <label class="form-check-label" for="zero_suit_samus_check">Zero Suit Samus</label>
+                    </div>
+                </li>
+        </div>
+        </div>
+
+    </nav>
     <script src="js/scattercanvas.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
