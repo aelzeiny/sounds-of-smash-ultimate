@@ -42,6 +42,7 @@ label.btn.btn-outline-dark {
 ul.char-list-unordered {
     padding-left: 0;
     overflow-y: scroll;
+    margin: 0;
 }
 
 .char-list {
@@ -83,6 +84,7 @@ ul.char-list-unordered {
 .char-filter-div {
     padding-left: 0;
     padding-right: 0;
+    padding-bottom: 0;
 }
 
 .char-filter-div h4 {

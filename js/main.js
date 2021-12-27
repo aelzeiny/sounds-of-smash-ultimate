@@ -28,7 +28,7 @@ function adjustCharacterWell() {
     const overflow = $('.char-list-unordered')[0];
     const { y, height } = overflow.getBoundingClientRect();
     if (height && window.innerHeight - y > 0) {
-        $(overflow).css('height', window.innerHeight - y + 'px');
+        $(overflow).css('height', window.innerHeight - y - 30 + 'px');
     }
 }
 
