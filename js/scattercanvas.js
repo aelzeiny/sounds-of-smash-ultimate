@@ -4,9 +4,9 @@ class PlayerManager {
     static REGEX_UNDERSCORE = new RegExp(/[( / )|\s]/g);
 
     constructor() {
-        this.nowPlaying = new Map();
         this.cache = {};
         this.onPause = new Set();
+        this.nowPlaying = new Set();
     }
 
     play(audioSrc) {
@@ -16,25 +16,16 @@ class PlayerManager {
             this.cache[audioSrc] = new Audio(this.fileToUrl(audioSrc));
             this.cache[audioSrc].load();
         }
-        this.nowPlaying.set(audioSrc, this.cache[audioSrc]);
-        this.nowPlaying.get(audioSrc).play().catch((e) => {
+        this.nowPlaying.add(audioSrc);
+        this.cache[audioSrc].play().catch((e) => {
             this.nowPlaying.delete(audioSrc);
             console.error('Unable to play Smash Audio File. ' + e.toString());
         });
-    }
-
-    update() {
-        const toRemove = [];
-        for (let [audioSrc, audioMedia] of this.nowPlaying.entries()) {
-            if (audioMedia.ended) {
-                toRemove.push(audioSrc);
-            }
-        }
-        for (let audioSrc of toRemove) {
+        this.cache[audioSrc].addEventListener('ended', () => {
             this.nowPlaying.delete(audioSrc);
             this.onPause.add(audioSrc);
             setTimeout(() => this.onPause.delete(audioSrc), PlayerManager.PAUSE_TIME);
-        }
+        });
     }
 
     fileToUrl(audioSrc) {
@@ -103,7 +94,6 @@ function initSoundsOfSmash(soundsOfSmash) {
     function draw() {
         const ctx = canvas.getContext('2d');
         camera.updateCanvas(ctx);
-        player.update();
         camera.clear(ctx, "#0e1117", canvas.width, canvas.height);
 
         const radius = Math.min(5 / camera._zoom, 5);
@@ -122,7 +112,7 @@ function initSoundsOfSmash(soundsOfSmash) {
             ctx.fillStyle = sound.hex;
             drawCircle(ctx, sound.posX, sound.posY, radius);
         }
-        for (let [fileKey, _] of player.nowPlaying) {
+        for (let fileKey of player.nowPlaying) {
             const sound = soundsOfSmash[fileKey];
             ctx.fillStyle = 'white';
             drawCircle(ctx, sound.posX, sound.posY, radius);
