@@ -126,6 +126,7 @@ $(document).ready(() => {
     var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     if (isSafari) {
         $('#safari-warning').addClass('active');
+        alert(navigator.userAgent);
     }
     $('#start-btn').click(start);
     $('#open-sidebar-btn').click(() => {
