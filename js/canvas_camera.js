@@ -219,6 +219,13 @@ class MouseCanvasCamera extends CanvasCamera {
     }
 
     handleTouch(e, singleTouchHandler) {
+        // DEBUG CODE FOR PINCH-ZOOM
+        // const e2 = Object.assign({}, e);
+        // e2.touches = Array.from(e.touches);
+        // e2.touches.push({ clientX: 0, clientY: 0 });
+        // e2.type = 'touchmove';
+        // e2.preventDefault = () => {};
+        // e = e2;
         if (e.touches.length === 1) {
             singleTouchHandler(e);
         } else if (e.type === "touchmove" && e.touches.length === 2) {
@@ -229,7 +236,6 @@ class MouseCanvasCamera extends CanvasCamera {
 
     handlePinch(e) {
         e.preventDefault();
-        if (!mouseWorld) return;
 
         const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
         const my = (e.touches[0].clientY + e.touches[1].clientY) / 2;
@@ -249,8 +255,6 @@ class MouseCanvasCamera extends CanvasCamera {
             this.setPosition(
                 this._position.x + (mouseAfter.x - mouseBefore.x),
                 this._position.y + (mouseAfter.y - mouseBefore.y),
-                true,
-                true
             );
         }
     }
@@ -264,12 +268,9 @@ class MouseCanvasCamera extends CanvasCamera {
             const mouseBefore = this.worldToScreen(mouseWorld.x, mouseWorld.y);
             this.adjustZoom(e.deltaY * MouseCanvasCamera.SCROLL_SENSITIVITY, null);
             const mouseAfter = this.worldToScreen(mouseWorld.x, mouseWorld.y);
-
             this.setPosition(
                 this._position.x + (mouseAfter.x - mouseBefore.x),
                 this._position.y + (mouseAfter.y - mouseBefore.y),
-                true,
-                true
             );
         }
     }
