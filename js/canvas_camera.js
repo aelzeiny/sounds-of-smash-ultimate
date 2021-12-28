@@ -229,6 +229,10 @@ class MouseCanvasCamera extends CanvasCamera {
 
     handlePinch(e) {
         e.preventDefault();
+        if (!mouseWorld) return;
+
+        const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const my = (e.touches[0].clientY + e.touches[1].clientY) / 2;
 
         let touch1 = { x: e.touches[0].clientX, y: e.touches[0].clientY };
         let touch2 = { x: e.touches[1].clientX, y: e.touches[1].clientY };
@@ -239,7 +243,15 @@ class MouseCanvasCamera extends CanvasCamera {
         if (this.initialPinchDistance == null) {
             this.initialPinchDistance = currentDistance;
         } else {
+            const mouseBefore = this.worldToScreen(mx, my);
             this.adjustZoom(null, currentDistance / this.initialPinchDistance);
+            const mouseAfter = this.worldToScreen(mx, my);
+            this.setPosition(
+                this._position.x + (mouseAfter.x - mouseBefore.x),
+                this._position.y + (mouseAfter.y - mouseBefore.y),
+                true,
+                true
+            );
         }
     }
 
