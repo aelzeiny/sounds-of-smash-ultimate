@@ -223,7 +223,7 @@ class MouseCanvasCamera extends CanvasCamera {
             singleTouchHandler(e);
         } else if (e.type === "touchmove" && e.touches.length === 2) {
             this.isDragging = false;
-            handlePinch(e);
+            this.handlePinch(e);
         }
     }
 
@@ -239,7 +239,7 @@ class MouseCanvasCamera extends CanvasCamera {
         if (this.initialPinchDistance == null) {
             this.initialPinchDistance = currentDistance;
         } else {
-            adjustZoom(null, currentDistance / this.initialPinchDistance);
+            this.adjustZoom(null, currentDistance / this.initialPinchDistance);
         }
     }
 
