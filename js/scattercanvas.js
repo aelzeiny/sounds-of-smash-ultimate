@@ -49,9 +49,9 @@ function initSoundsOfSmash(soundsOfSmash) {
     const canvas = $('#smash-scattercanvas').get(0);
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight - 100;
-    const camera = new MouseCanvasCamera(canvas);
+    const camera = new CanvasCamera(canvas);
     const player = new PlayerManager();
-    camera.setZoom(0.8);
+    camera.cameraZoom = 0.8;
     let mousePos = { x: 0, y: 0 };
 
     let sepX, sepXW, sepY, sepYW;
@@ -86,20 +86,18 @@ function initSoundsOfSmash(soundsOfSmash) {
             const currCenter = { x: (maxX + minX) / 2, y: (maxY + minY) / 2 };
             // adjust for nav-bar on desktop + mobile
             const w = (window.innerWidth >= 768) ? window.innerWidth - 300 : window.innerWidth;
-            const targetCenter = camera.worldToScreen(w / 2, (window.innerHeight) / 2);
-            camera.setPosition(
-                camera._position.x + (targetCenter.x - currCenter.x),
-                camera._position.y + (targetCenter.y - currCenter.y)
-            );
+            const targetCenter = camera.screen2World(w / 2, (window.innerHeight) / 2);
+            camera.cameraOffset.x += targetCenter.x - currCenter.x;
+            camera.cameraOffset.y += targetCenter.y - currCenter.y;
         }
     }
 
     function draw() {
         const ctx = canvas.getContext('2d');
-        camera.updateCanvas(ctx);
-        camera.clear(ctx, "#0e1117", canvas.width, canvas.height);
+        camera.update(ctx);
+        camera.clear(ctx, "#0e1117");
 
-        const radius = Math.min(5 / camera._zoom, 5);
+        const radius = Math.min(5 / camera.cameraZoom, 5);
         const mouseRadius = radius * 3;
         const mouseRadiusSq = mouseRadius * mouseRadius;
         ctx.fillStyle = "gray";
@@ -146,7 +144,7 @@ function initSoundsOfSmash(soundsOfSmash) {
     // }
 
     function setMousePos(e) {
-        mousePos = camera.worldToScreen(e.clientX, e.clientY);
+        mousePos = camera.screen2World(e.clientX, e.clientY);
     }
     canvas.addEventListener('mousemove', setMousePos);
     canvas.addEventListener('wheel', setMousePos);
