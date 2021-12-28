@@ -219,9 +219,9 @@ class MouseCanvasCamera extends CanvasCamera {
     }
 
     handleTouch(e, singleTouchHandler) {
-        if (e.touches.length == 1) {
+        if (e.touches.length === 1) {
             singleTouchHandler(e);
-        } else if (e.type == "touchmove" && e.touches.length == 2) {
+        } else if (e.type === "touchmove" && e.touches.length === 2) {
             this.isDragging = false;
             handlePinch(e);
         }
@@ -250,7 +250,7 @@ class MouseCanvasCamera extends CanvasCamera {
             if (!mouseWorld) return;
 
             const mouseBefore = this.worldToScreen(mouseWorld.x, mouseWorld.y);
-            this.adjustZoom(e.deltaY * MouseCanvasCamera.SCROLL_SENSITIVITY, null, false);
+            this.adjustZoom(e.deltaY * MouseCanvasCamera.SCROLL_SENSITIVITY, null);
             const mouseAfter = this.worldToScreen(mouseWorld.x, mouseWorld.y);
 
             this.setPosition(
@@ -262,18 +262,17 @@ class MouseCanvasCamera extends CanvasCamera {
         }
     }
 
-    adjustZoom(zoomAmount, zoomFactor, updateCanvas = true) {
+    adjustZoom(zoomAmount, zoomFactor) {
         if (!this.isDragging) {
             if (zoomAmount) {
-                this.setZoom(this._zoom + zoomAmount, false, false);
+                this.setZoom(this._zoom + zoomAmount, false);
             } else if (zoomFactor) {
-                this.setZoom(zoomFactor * this.lastZoom, false, false);
+                this.setZoom(zoomFactor * this.lastZoom, false);
             }
 
             this.setZoom(
                 Math.max(Math.min(this._zoom, MouseCanvasCamera.MAX_ZOOM), MouseCanvasCamera.MIN_ZOOM),
                 true,
-                updateCanvas
             );
         }
     }

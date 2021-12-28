@@ -59,3 +59,17 @@ h3 {
     font-family: 'Pacifico', cursive;
     text-align: center;
 }
+
+#safari-warning {
+    position: absolute;
+    top: 0;
+    background-color: black;
+    color: white;
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+#safari-warning.active {
+    display: inline-block;
+}

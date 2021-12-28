@@ -17,6 +17,9 @@ class PlayerManager {
             this.cache[audioSrc].load();
         }
         this.nowPlaying.add(audioSrc);
+        this.cache[audioSrc].addEventListener('canplaythrough', () => {
+            this.cache[audioSrc].play();
+        });
         this.cache[audioSrc].play().catch((e) => {
             this.nowPlaying.delete(audioSrc);
             console.error('Unable to play Smash Audio File. ' + e.toString());
@@ -45,7 +48,7 @@ class PlayerManager {
 function initSoundsOfSmash(soundsOfSmash) {
     const canvas = $('#smash-scattercanvas').get(0);
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = window.innerHeight - 100;
     const camera = new MouseCanvasCamera(canvas);
     const player = new PlayerManager();
     camera.setZoom(0.8);
@@ -99,6 +102,8 @@ function initSoundsOfSmash(soundsOfSmash) {
         const radius = Math.min(5 / camera._zoom, 5);
         const mouseRadius = radius * 3;
         const mouseRadiusSq = mouseRadius * mouseRadius;
+        ctx.fillStyle = "gray";
+        drawCircle(ctx, mousePos.x, mousePos.y, mouseRadius);
         for (let sound of Object.values(soundsOfSmash)) {
             if (!(sound.enabledChar && sound.enabledType)) {
                 continue;
