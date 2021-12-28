@@ -137,7 +137,6 @@ $(document).ready(() => {
         $('#open-sidebar-btn').removeClass('hidden');
     });
     adjustCharacterWell();
-    $('#filter-bar').removeClass('init');
     initSearch();
     initCharacterFilters();
     initTypeFilters();

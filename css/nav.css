@@ -117,13 +117,10 @@ ul.char-list-unordered {
     #filter-bar {
         overflow-y: auto;
         width: 100%;
-        display: none;
-    }
-    #filter-bar.init {
         visibility: hidden;
     }
     #filter-bar.active {
-        display: initial;
+        visibility: visible;
     }
     #open-sidebar-btn {
         visibility: initial;
