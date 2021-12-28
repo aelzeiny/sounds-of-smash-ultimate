@@ -1,6 +1,8 @@
+html,
 body {
     font-family: 'Roboto Mono', monospace;
     background-color: #0e1117 !important;
+    overscroll-behavior-y: contain;
 }
 
 .form-check-input {
