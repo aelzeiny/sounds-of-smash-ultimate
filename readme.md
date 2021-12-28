@@ -1,7 +1,16 @@
 # Smash Ultimate - Fighter Sounds
-I grouped 22K Smash Ultimate fighter sounds by similiarity. Don't know why I did it. Nobody asked for this. 
+I grouped 11K Smash Ultimate fighter sounds by similiarity. Don't know why I did it. Nobody asked for this. And yet here we are...
 
-I just always thought the sound design for this game is kinda insane. It goes far beyond the 89 total fighters with their 15ish distinct moves. There are sounds for walking, dashing, jumping, squatting, hitting, and getting-hit that are semi-unique per character. Some characters have skins with unique sound packs (Male/Female Corrin/WiiFit/Robin, the 8 Bowser Jrs, 8-bit Little Mac). Then there are the most specific sound effects that you would never hear even after playing the game for years - like drowning, swimming, sleeping, or a dramatic slow-motion scream. Oh, let's not forget that Kirby's copy ability has custom voices for every fighter, and that every character in the game also has a crowd-chant.
+[https://elzeiny.io/sounds-of-smash-utlimate](https://elzeiny.io/sounds-of-smash-utlimate)
+
+![Screenshot](data/sounds-of-smash-screenshot.png)
+
+## How does this work
+Each node is an audio file. Audio files that are similar are close together. The X and Y axes don't represent anything in particular, because this is higher-dimensional data represented in 2D space. 
+
+## But Y Tho?
+
+I just always thought the sound design for this game is kinda insane. It goes far beyond the 89 total fighters with their 15ish distinct moves. There are sounds for walking, dashing, jumping, squatting, hitting, and getting-hit that are mostly-unique per character. Some characters have skins with unique sound packs (Male/Female Corrin/WiiFit/Robin, the 8 Bowser Jrs, 8-bit Little Mac). Then there are the most specific sound effects that you would never hear even after playing the game for years - like drowning, swimming, sleeping, or a dramatic slow-motion scream. Oh, let's not forget that Kirby's copy ability has custom voices for every fighter, and that every character in the game also has a crowd-chant.
 
 ## How was this data gathered and plotted?
 In loose steps, I'll tell you how I pulled the files out of the switch binary. This took me days to figure out, but for some reason I was really determined to complete this questionable project.
@@ -13,4 +22,4 @@ In loose steps, I'll tell you how I pulled the files out of the switch binary. T
 5. Reduce the multi-dimensional feature-vector to 2D (or 3D) using the T-SNE's dimensionality reduction algorithm.
 
 ## How is this rendered?
-Mostly D3. This is the first static website that I've built in a while with vanilla HTML + CSS + JS + D3.
+Plain-old Canvas. No webpack or front-end frameworks used; just JQuery + Bootstrap 5's CSS package.
