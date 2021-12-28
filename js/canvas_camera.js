@@ -2,7 +2,7 @@
  * Adapted from https://codepen.io/chengarda/pen/wRxoyB
  */
 class CanvasCamera {
-    static MIN_ZOOM = 0.1;
+    static MIN_ZOOM = 0.75;
     static MAX_ZOOM = 5;
     static SCROLL_SENSITIVITY = 0.001;
 
