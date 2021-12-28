@@ -123,10 +123,9 @@ function initTypeFilters() {
 
 $(document).ready(() => {
     // start();  // For debugging purposes.
-    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    var isSafari = /^((?!chrome|android|crios).)*safari/i.test(navigator.userAgent);
     if (isSafari) {
         $('#safari-warning').addClass('active');
-        alert(navigator.userAgent);
     }
     $('#start-btn').click(start);
     $('#open-sidebar-btn').click(() => {
