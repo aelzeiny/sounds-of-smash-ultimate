@@ -6,7 +6,10 @@ I grouped 11K Smash Ultimate fighter sounds by similiarity. Don't know why I did
 ![Screenshot](data/sounds-of-smash-screenshot.png)
 
 ## How does this work
-Each node is an audio file. Audio files that are similar are close together. The X and Y axes don't represent anything in particular, because this is higher-dimensional data represented in 2D space. 
+Each node is an audio file. Audio files that are similar are close together. The X and Y axes don't represent anything in particular, because this is higher-dimensional data represented in 2D space. Hover over the node to hear the audio clip. Zoom in/out on the page to increase/decrease granularity. Use the side-bar to filter for audio nodes that belong to a specific character or type.
+1. What are [Mel Spectograms?](https://youtu.be/9GHCiiDLHQ4)?
+2. What are [MFCCs](https://www.youtube.com/watch?v=4_SH2nfbQZ8)?
+3. What are [T-SNEs](https://www.youtube.com/watch?v=NEaUSP4YerM)?
 
 ## But Y Tho?
 
