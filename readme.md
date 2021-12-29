@@ -1,7 +1,7 @@
 # Smash Ultimate - Fighter Sounds
 I grouped 11K Smash Ultimate fighter sounds by similiarity. Don't know why I did it. Nobody asked for this. And yet here we are...
 
-[https://elzeiny.io/sounds-of-smash-utlimate](https://elzeiny.io/sounds-of-smash-utlimate)
+[https://www.elzeiny.io/sounds-of-smash-ultimate](https://www.elzeiny.io/sounds-of-smash-ultimate)
 
 ![Screenshot](data/sounds-of-smash-screenshot.png)
 
