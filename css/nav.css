@@ -26,6 +26,7 @@ label.btn.btn-outline-dark {
     display: initial;
     width: 389px;
     position: absolute;
+    top: 0;
     right: 0;
     color: white;
     height: 100vh;
