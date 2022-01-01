@@ -47,8 +47,8 @@ class PlayerManager {
 
 function initSoundsOfSmash(soundsOfSmash) {
     const canvas = $('#smash-scattercanvas').get(0);
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight - 100;
+    canvas.width = window.innerWidth - 30;
+    canvas.height = window.innerHeight - 37;
     const camera = new CanvasCamera(canvas);
     const player = new PlayerManager();
     camera.cameraZoom = 0.8;
@@ -57,8 +57,8 @@ function initSoundsOfSmash(soundsOfSmash) {
     let sepX, sepXW, sepY, sepYW;
 
     function rearrangePointCloud(center = false) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth - 30;
+        canvas.height = window.innerHeight - 37;
 
         dim = Math.min(window.innerWidth, innerHeight);
         sepX = (.25 * dim);
